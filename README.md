@@ -1,1 +1,2 @@
-# rebol-core-user-guide-23-cn
+# REBOL/Core Users Guide 中文版
+
