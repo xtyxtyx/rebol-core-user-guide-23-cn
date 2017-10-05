@@ -110,45 +110,71 @@ A3
 Console
 
 The command prompt. History recall. Busy indicator. Advanced console operations.
-
-C1
-
-Changes
-
-Addendum to this document covering 2.3.0-2.5.X
-
-C2
-
-Updates
-
-Newer versions of REBOL, including alpha and beta releases.
 }
 
 source: split source "^/"
 remove-each line source [line = ""]
 
+counter: 0
+"下面这段代码用来生成rebolcore下的文件，使用时须将其他while循环注释掉。"
 while [not tail? source] [
     index: take source
-    if (length? index) = 1 [insert index "0"]
+    index-in-url: either (length? index) = 1 [rejoin ["0" index]] [index]
     
     title: take source
-    title: replace   title " " "_"
-    title: lowercase title
+    title-in-url: copy title
+    title-in-url: replace   title-in-url " " "-"
+    title-in-url: lowercase title-in-url
     
     
-    filename: to-file rejoin ["../rebolcore/" "r-" index "-" title ".md"]
+    filename: to-file rejoin ["../rebolcore/" "r-" index-in-url "-" title-in-url ".md"]
     content:  take source
     
     either exists? filename [
         print ["skipping:" filename]
 
     ] [
-        write/append filename rejoin ["## " "第" index "章" " - " title]
+        write/append filename rejoin ["# " "第" index "章" " - " title "（" title "）"]
         write/append filename rejoin [newline newline]
+        
+        write/append filename "> 翻译：[__](#) 校对：[__](#)"
+        write/append filename rejoin [newline newline]
+        
         write/append filename content
+        write/append filename rejoin [newline newline]
+
+        counter: counter + 1
+        write/append filename rejoin [{原文地址：http://www.rebol.com/docs/core23/rebolcore-} counter {.html}]
+        
         print ["creating:" filename]
     ]
 ]
 
+"下面这段代码用来生成译者名单（在README.md中），使用时须将其他while循环注释掉。"
+'while [not tail? source] [
+    index: take source
+    if (length? index) = 1 [insert index "0"]
+    
+    title: take source
+    
+    take source ;; skip description
+    
+    print rejoin ["- " index "-" title ": ( [__](#) )"]
+]
+
+"下面这段代码用来生成_sidebar.md，使用时须将其他while循环注释掉。"
+'while [not tail? source] [
+    index: take source
+    index-in-url: either (length? index) = 1 [rejoin ["0" index]] [index]
+    
+    title: take source
+    title-in-url: copy title
+    title-in-url: replace   title-in-url " " "-"
+    title-in-url: lowercase title-in-url
+    
+    take source ;; skip description
+    
+    print rejoin ["- " "[" title "]" "(rebolcore/" "r-" index-in-url "-" title-in-url ".md" ")"]
+]
 
 
