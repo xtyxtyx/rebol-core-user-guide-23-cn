@@ -1,5 +1,7 @@
 # REBOL/Core Users Guide 中文版
 
+项目地址：[Github](https://github.com/xtyxtyx/rebol-core-user-guide-23-cn) [Coding镜像](https://coding.net/u/mrkari/p/rebol-core-user-guide-23-cn/git)
+
 ### 译者名单
 - 01-Introduction: ( [__](#) )                                                                                                                                    
 - 02-Operation: ( [__](#) )                                                                                                                                       
